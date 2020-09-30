@@ -8,3 +8,7 @@ W celu instalacji biblioteki **pgzero** otwieramy **_terminal_** i wpisujemy pol
 `pip install pgzero`
 
 Następnie zatwierdzamy przyciskiem Enter i czekamy, aż instalacja zostanie zakończona.
+
+### 2. Utworzenie podstawowego szablonu.
+
+### 3. Duszek poruszający się po ekranie.
