@@ -1,16 +1,13 @@
 import random
 
 
-ukryta = random.randint(1, 100)
+ukryta = random.randint(1, 10)
 
 liczba = int(input("Podaj liczbę: "))
 
 while liczba != ukryta:
-    if ukryta < liczba:
-        print("Mniejsza!")
-    if ukryta > liczba:
-        print("Większa!")
+    print("Nie")
 
     liczba = int(input("Podaj liczbę: "))
 
-print("Trafiona!")
+print("Tak!")
