@@ -1,6 +1,8 @@
-Stworzenie prostej gry dla dwóch graczy: Ping-Pong.
+Stworzenie prostej gry dla dwóch graczy: Pong.
 
 Dwie paletki, jedna piłeczka.
+
+Rozwiązanie: pong.py
 
 Zagadnienia:
 - Wykrywanie kolizji.
