@@ -101,11 +101,11 @@ def ruch_graczy():
         if prawa.bottom + 5 < HEIGHT - 40:
             prawa.top += 5
 
-    # Lewy gracz porusza się za pomocą klawiszy w i s
-    if keyboard.w:
+    # Lewy gracz porusza się automatycznie
+    if lewa.y > pilka.y:
         if lewa.top - 5 > 40:
             lewa.top -= 5
-    elif keyboard.s:
+    elif lewa.y < pilka.y:
         if lewa.bottom + 5 < HEIGHT - 40:
             lewa.top += 5
 
