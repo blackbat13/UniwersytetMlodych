@@ -1,16 +1,9 @@
-Strzelanie do asteroid.
+Spadające przedmioty.
 
-Poruszamy statkiem kosmicznym.
-Z góry spadają asteroidy, do których możemy strzelać.
+Poruszamy postacią znajdującą się na dole ekranu.
+Możemy poruszać nią lewo-prawo.
 
-Strzały możemy oddawać w określonych odstępach czasu.
+Z góry ekranu spadają różne przedmioty.
+Pojawiają się w losowych miejscach w losowych odstępach czasu.
 
-Statkiem możemy płynnie poruszać lewo-praw, góra-dół.
-
-Po trafieniu, asteroida znika.
-
-Za każdą trafioną asteroidę dostajemy punkty.
-
-Za każdą przepuszczoną asteroidę tracimy punkt życia.
-
-Po uderzeniu w asteroidę przegrywamy.
+Celem gry jest ominięcie jak największej liczby przedmiotów.
