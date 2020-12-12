@@ -98,6 +98,8 @@ def update():
     for met in meteory:
         if statek.collidepoint(met.pos):
             statek.zycia -= 1
+            if statek.zycia == 0:
+                sounds.game_over.play()
             meteory.remove(met)
             break
 
@@ -136,6 +138,7 @@ def update():
 
     if lowca.collidepoint(statek.pos):
         statek.zycia = 0
+        sounds.game_over.play()
 
 
 def on_key_down(key):
@@ -146,6 +149,7 @@ def on_key_down(key):
         poc.y = statek.y
         poc.v = 10
         pociski.append(poc)
+        sounds.laser1.play()
 
 
 def dodaj_meteor():
