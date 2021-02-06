@@ -35,9 +35,21 @@ rakiety_duze = []
 
 wybuchy = []
 
+slady = []
+
 
 def draw():
     screen.fill((255, 255, 255))
+
+    for x in range(0, WIDTH + 128, 128):
+        for y in range(0, HEIGHT + 128, 128):
+            ziemia = Actor("ziemia1.png")
+            ziemia.x = x
+            ziemia.y = y
+            ziemia.draw()
+
+    for slad in slady:
+        slad.draw()
 
     for wyb in wybuchy:
         wyb.draw()
@@ -82,6 +94,14 @@ def update():
     akt_rakiety_male()
     akt_rakiety_duze()
     akt_wybuchy()
+    akt_slady()
+
+
+def akt_slady():
+    for slad in slady[:]:
+        slad.czas -= 1
+        if slad.czas <= 0:
+            slady.remove(slad)
 
 
 def akt_wybuchy():
@@ -172,12 +192,22 @@ def akt_wrogowie():
         wrog.x = WIDTH / 2 + math.sin(math.radians(kat)) * czolg.odl_x
         wrog.y = HEIGHT / 2 + math.cos(math.radians(kat)) * czolg.odl_y
         wrog.v = 2
+        wrog.slad = 0
         wrogowie.append(wrog)
 
     for wrog in wrogowie:
         wrog.angle = wrog.angle_to(czolg) + czolg.wrog_kat
         wrog.x += math.sin(math.radians(wrog.angle)) * wrog.v
         wrog.y += math.cos(math.radians(wrog.angle)) * wrog.v
+        wrog.slad -= 1
+        if wrog.slad <= 0:
+            wrog.slad = 20
+            slad = Actor("slady1.png")
+            slad.x = wrog.x
+            slad.y = wrog.y
+            slad.angle = wrog.angle
+            slad.czas = 100
+            slady.append(slad)
         if wrog.colliderect(czolg):
             czolg.zycie = 0
             czolg.image = "wybuch1.png"
