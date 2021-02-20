@@ -89,19 +89,19 @@ def update():
 
 def pobierz_grafike_gracza():  # Pobranie właściwej grafiki
     dt = datetime.datetime.now()
-    a = gracz.angle
+    kat = gracz.angle
     tc = dt.microsecond % (500000 / PREDKOSC) / (100000 / PREDKOSC)  # ustalenie czasu
     if tc > 2.5 and (gracz.ruch_x != 0 or gracz.ruch_y != 0):  # jeżeli jesteśmy w trakcie ruchu
-        if a != 180:
+        if kat != 180:
             gracz.image = "pacman_c"
         else:
             gracz.image = "pacman_cr"
     else:  # grafika w trakcie postoju
-        if a != 180:
+        if kat != 180:
             gracz.image = "pacman_o"
         else:
             gracz.image = "pacman_or"
-    gracz.angle = a
+    gracz.angle = kat
 
 
 inicjalizuj()
