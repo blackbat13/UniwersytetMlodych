@@ -9,31 +9,34 @@ HEIGHT = 660
 gracz = Actor("pacman_o")  # Load in the player Actor image
 gracz.punkty = 0
 gracz.zycia = 3
+gracz.ruch_duchow_flaga = 4
 level = 0
 PREDKOSC = 3
 
 duchy = []
 punkty = []
-ruch_duchow_flaga = 4
 
 
 def draw():
     screen.blit('header', (0, 0))
     screen.blit('colourmap', (0, 80))
-    pacDotsLeft = 0
+    pozostale_punkty = 0
     for a in range(len(punkty)):
         if punkty[a].status == 0:
             punkty[a].draw()
-            pacDotsLeft += 1
+            pozostale_punkty += 1
         if punkty[a].collidepoint((gracz.x, gracz.y)):
             if punkty[a].status == 0:
                 if punkty[a].type == 2:
-                    for g in range(len(duchy)): duchy[g].status = 1200
+                    for g in range(len(duchy)):
+                        duchy[g].status = 1200
                 else:
                     gracz.punkty += 10
             punkty[a].status = 1
-    if pacDotsLeft == 0:
+
+    if pozostale_punkty == 0:
         gracz.status = 2
+
     rysuj_duchy()
     pobierz_grafike_gracza()
     gracz.draw()
@@ -43,43 +46,50 @@ def draw():
     screen.draw.text(str(gracz.punkty), topright=(590, 20), owidth=0.5, ocolor=(255, 255, 255), color=(0, 64, 255),
                      fontsize=60)
     if gracz.status == 3:
+        screen.draw.text("GAME OVER", center=(300, 434), owidth=0.5, ocolor=(255, 255, 255), color=(255, 64, 0),
+                         fontsize=60)
         drawCentreText("GAME OVER")
     if gracz.status == 2:
-        drawCentreText("LEVEL CLEARED!\nPress Enter\nto Continue")
+        screen.draw.text("LEVEL CLEARED!\nPress Enter\nto Continue", center=(300, 434), owidth=0.5,
+                         ocolor=(255, 255, 255), color=(255, 64, 0),
+                         fontsize=60)
     if gracz.status == 1:
-        drawCentreText("CAUGHT!\nPress Enter\nto Continue")
-
-
-def drawCentreText(t):
-    screen.draw.text(t, center=(300, 434), owidth=0.5, ocolor=(255, 255, 255), color=(255, 64, 0), fontsize=60)
+        screen.draw.text("CAUGHT!\nPress Enter\nto Continue",
+                         center=(300, 434), owidth=0.5, ocolor=(255, 255, 255), color=(255, 64, 0),
+                         fontsize=60)
 
 
 def sterowanie():
     if keyboard.left:
         gracz.angle = 180
         gracz.ruch_x = -20
+        gracz.ruch_y = 0
     if keyboard.right:
         gracz.angle = 0
         gracz.ruch_x = 20
+        gracz.ruch_y = 0
     if keyboard.up:
         gracz.angle = 90
+        gracz.ruch_x = 0
         gracz.ruch_y = -20
     if keyboard.down:
         gracz.angle = 270
+        gracz.ruch_x = 0
         gracz.ruch_y = 20
 
 
 def update():
-    global ruch_duchow_flaga
     if gracz.status == 0:
-        if ruch_duchow_flaga == 4:
-            moveGhosts()
+        if gracz.ruch_duchow_flaga == 4:
+            rusz_duchy()
         for g in range(len(duchy)):
-            if duchy[g].status > 0: duchy[g].status -= 1
+            if duchy[g].status > 0:
+                duchy[g].status -= 1
             if duchy[g].collidepoint((gracz.x, gracz.y)):
                 if duchy[g].status > 0:
                     gracz.punkty += 100
-                    animate(duchy[g], pos=(290, 370), duration=1 / PREDKOSC, tween='linear', on_finished=zwieksz_flage)
+                    animate(duchy[g], pos=(290, 370), duration=1 / PREDKOSC, tween='linear',
+                            on_finished=zwieksz_flage)
                 else:
                     gracz.zycia -= 1
                     sounds.pac2.play()
@@ -159,10 +169,9 @@ def rysuj_duchy():
         duchy[g].draw()
 
 
-def moveGhosts():
-    global ruch_duchow_flaga
-    dmoves = [(1, 0), (0, 1), (-1, 0), (0, -1)]
-    ruch_duchow_flaga = 0
+def rusz_duchy():
+    d_ruchy = [(1, 0), (0, 1), (-1, 0), (0, -1)]
+    gracz.ruch_duchow_flaga = 0
     for g in range(len(duchy)):
         dirs = gamemaps.dozwolone_ruchy(duchy[g])
         if w_srodku(duchy[g]):
@@ -173,6 +182,7 @@ def moveGhosts():
             if g == 1:
                 zaskocz_gracza(g, dirs)
 
+        # Jeżeli duch nie może dalej iść w tym samym kierunku, lub gdy losowo zmieniamy jego kierunek
         if dirs[duchy[g].dir] == 0 or randint(0, 50) == 0:
             d = -1
             while d == -1:
@@ -183,7 +193,7 @@ def moveGhosts():
                     d = rd
             duchy[g].dir = d
         animate(duchy[g],
-                pos=(duchy[g].x + dmoves[duchy[g].dir][0] * 20, duchy[g].y + dmoves[duchy[g].dir][1] * 20),
+                pos=(duchy[g].x + d_ruchy[duchy[g].dir][0] * 20, duchy[g].y + d_ruchy[duchy[g].dir][1] * 20),
                 duration=1 / PREDKOSC, tween='linear', on_finished=zwieksz_flage)
 
 
@@ -226,8 +236,7 @@ def nad_srodkiem(ga):
 
 
 def zwieksz_flage():
-    global ruch_duchow_flaga
-    ruch_duchow_flaga += 1
+    gracz.ruch_duchow_flaga += 1
 
 
 def kolizja_duchow(ga, gn):
@@ -238,8 +247,7 @@ def kolizja_duchow(ga, gn):
 
 
 def ustaw_punkty():
-    global punkty
-    punkty = []
+    punkty.clear()
     a = 0
     x = 0
     while x < 30:
@@ -261,9 +269,8 @@ def ustaw_punkty():
 
 
 def ustaw_duchy():
-    global duchy, ruch_duchow_flaga
-    ruch_duchow_flaga = 4
-    duchy = []
+    gracz.ruch_duchow_flaga = 4
+    duchy.clear()
     g = 0
     while g < 4:
         duchy.append(Actor("ghost" + str(g + 1), (270 + (g * 20), 370)))

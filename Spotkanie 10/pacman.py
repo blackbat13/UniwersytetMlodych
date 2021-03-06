@@ -61,14 +61,18 @@ def sterowanie():
     if keyboard.left:
         gracz.angle = 180
         gracz.ruch_x = -20
+        gracz.ruch_y = 0
     if keyboard.right:
         gracz.angle = 0
         gracz.ruch_x = 20
+        gracz.ruch_y = 0
     if keyboard.up:
         gracz.angle = 90
+        gracz.ruch_x = 0
         gracz.ruch_y = -20
     if keyboard.down:
         gracz.angle = 270
+        gracz.ruch_x = 0
         gracz.ruch_y = 20
 
 
